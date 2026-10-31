@@ -18,6 +18,9 @@ jobs:
       - run: mkdir -p www && cp index.html app.js www/
       - run: npm install
       - run: npx cap add android
+      - name: Add Spotify sign-in link
+        run: |
+          sed -i 's#</activity>#<intent-filter><action android:name="android.intent.action.VIEW"/><category android:name="android.intent.category.DEFAULT"/><category android:name="android.intent.category.BROWSABLE"/><data android:scheme="com.hush.player" android:host="callback"/></intent-filter></activity>#' android/app/src/main/AndroidManifest.xml
       - run: npx cap sync android
       - run: chmod +x android/gradlew && cd android && ./gradlew assembleDebug
       - uses: actions/upload-artifact@v4
